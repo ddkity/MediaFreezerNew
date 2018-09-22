@@ -1,7 +1,3 @@
-# MediaFreezerNew
-基于ayla黑盒方案的美的冰箱，个人开发项目
-
-
       Ayla     BM-30     STM32F3Discovery   STM32F303 STM32F030 MKL16Z128
     ----------------------------------------------------------------------
     SPI_SSN  SPI_SSN(1)   MICRO_SPI_SSN(35)    PB12     PA4tt      PD4
