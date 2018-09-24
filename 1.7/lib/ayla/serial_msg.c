@@ -535,7 +535,8 @@ static void serial_rx_send_tlv(struct ayla_cmd *cmd, void *buf, size_t len)
 		/* AD_SEND_PROP cmd without a name TLV */
 		err = AERR_INVAL_NAME;
 		serial_tx_err(AD_SEND_PROP_RESP, send_arg.req_id, err, 1);
-		prop_send_req_to_ads_only("version");
+		//prop_send_req_to_ads_only("version");		/* huangjituan */
+		prop_lookup("BlackBox_MCU_FW_Ver")->send_mask = ADS_BIT;		/* huangjituan */
 		prop_request_value(NULL);
 		return;
 	} else if (len < sizeof(*tlv)) {

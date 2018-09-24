@@ -33,7 +33,9 @@
 * Blue button push observed by interrupt handler.
 * Callers are in stm32.c
 */
+#if 0
 void demo_set_button_state(u8 button_value);
+#endif
 
 #endif /* __AYLA_DEMO_H__ */
 

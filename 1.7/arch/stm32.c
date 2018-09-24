@@ -236,7 +236,9 @@ static u8 stm32_button_read(void)
 				     tick + BUTTON_ON_MIN_TICKS;
 			}
 			stm32_button.val = new;
+			#if 0
 			demo_set_button_state(stm32_button.val);
+			#endif
 		}
 	}
 	return new;
@@ -272,7 +274,9 @@ void SysTick_Handler(void)
 		stm32_button_read();
 		if (stm32_button.val > stm32_button.raw) {
 			stm32_button.val = stm32_button.raw;
+			#if 0
 			demo_set_button_state(stm32_button.val);
+			#endif
 		}
 	}
 #elif defined(MCU_NXP_KINETIS_CM0P) || defined(MCU_ST_STM32_CM0)

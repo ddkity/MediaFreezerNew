@@ -1,0 +1,11 @@
+ack_enabled,base_type,comment,created_at,data_updated_at,direction,display_name,feed_data,feed_interval,feed_params,feed_type,host_sw_version,id,last_data_id,name,read_only,sampled,scope,smart_home_skill,template_id,template_retention_days,time_series,track_only_changes,unit,updated_at,type,template_denied_roles
+false,boolean,null,2018-09-22T11:09:06Z,null,output,Blue_button,null,null,null,null,false,659245,null,Blue_button,true,false,user,null,48114,30,false,false,null,2018-09-22T11:09:06Z,TemplateProperty,
+false,boolean,null,2018-09-22T11:09:06Z,null,input,Blue_LED,null,null,null,null,false,659246,null,Blue_LED,false,false,user,null,48114,30,false,false,null,2018-09-22T11:09:06Z,TemplateProperty,
+false,string,null,2018-09-22T11:09:06Z,null,input,cmd,null,null,null,null,false,659247,null,cmd,false,false,user,null,48114,30,false,false,null,2018-09-22T11:09:06Z,TemplateProperty,
+false,decimal,null,2018-09-22T11:09:06Z,null,input,decimal_in,null,null,null,null,false,659248,null,decimal_in,false,false,user,null,48114,30,false,false,null,2018-09-22T11:09:06Z,TemplateProperty,
+false,decimal,null,2018-09-22T11:09:06Z,null,output,decimal_out,null,null,null,null,false,659249,null,decimal_out,true,false,user,null,48114,30,false,false,null,2018-09-22T11:09:06Z,TemplateProperty,
+false,boolean,null,2018-09-22T11:09:06Z,null,input,Green_LED,null,null,null,null,false,659250,null,Green_LED,false,false,user,null,48114,30,false,false,null,2018-09-22T11:09:06Z,TemplateProperty,
+false,integer,null,2018-09-22T11:09:06Z,null,input,input,null,null,null,null,false,659251,null,input,false,false,user,null,48114,30,false,false,null,2018-09-22T11:09:06Z,TemplateProperty,
+false,string,null,2018-09-22T11:09:06Z,null,output,log,null,null,null,null,false,659252,null,log,true,false,user,null,48114,30,false,false,null,2018-09-22T11:09:06Z,TemplateProperty,
+false,integer,null,2018-09-22T11:09:06Z,null,output,output,null,null,null,null,false,659253,null,output,true,false,user,null,48114,30,false,false,null,2018-09-22T11:09:06Z,TemplateProperty,
+false,string,null,2018-09-22T11:09:06Z,null,output,version,null,null,null,null,true,659254,null,version,true,false,user,null,48114,30,false,true,null,2018-09-23T06:35:42Z,TemplateProperty,

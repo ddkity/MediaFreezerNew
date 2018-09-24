@@ -400,6 +400,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\example\wifi_mgmt\wifi_demo.c</FilePath>
             </File>
+            <File>
+              <FileName>rfsmarthandle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\example\ledevb\rfsmarthandle.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -484,6 +489,16 @@
               <FileName>startup_stm32f030xc.s</FileName>
               <FileType>2</FileType>
               <FilePath>..\..\..\..\STM32F0xx_StdPeriph_Driver\src\startup_stm32f030xc.s</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f0xx_misc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_misc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f0xx_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_tim.c</FilePath>
             </File>
           </Files>
         </Group>

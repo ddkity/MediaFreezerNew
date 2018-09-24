@@ -131,6 +131,7 @@ const char version[] = VERSION;
 #endif /* DEMO_IMG_MGMT || AYLA_BUILD_VERSION */
 #include <ayla/byte_order.h>
 
+#include "rfsmarthandle.h"
 static u8 factory_reset;
 
 #ifdef DEMO_CONSOLE
@@ -151,9 +152,11 @@ static const char *sources[] = SOURCES;
 extern enum source console_src;
 #endif
 
+#if 0
 static void set_input(struct prop *, void *arg, void *valp, size_t len);
 static void set_cmd(struct prop *, void *arg, void *valp, size_t len);
 static void set_dec_in(struct prop *prop, void *arg, void *valp, size_t len);
+#endif
 
 #ifdef DEMO_IMG_MGMT
 extern u8 boot2inactive;
@@ -165,13 +168,16 @@ int send_template_version(struct prop *, void *arg);
 void template_version_sent(void);
 #endif
 
+#if 0
 static s32 input;
 static s32 output;
 static s32 decimal_in;
 static s32 decimal_out;
 static u8 blue_button;
 static char cmd_buf[TLV_MAX_STR_LEN + 1];
+#endif
 
+#if 0
 #ifdef DEMO_SCHED_LIB
 static u8 sched_buf[256];
 static u8 sched_out_length;
@@ -179,6 +185,7 @@ static const u8 *sched_out;
 static struct sched_prop schedule_in;
 static void set_schedule_in(struct prop *prop, void *arg, void *valp,
     size_t len);
+#endif
 #endif
 
 #ifdef DEMO_POWER_MGMT
@@ -200,6 +207,7 @@ enum demo_val_err {
 	VAL_OUT_OF_RNG
 };
 
+#if 0
 #if   defined(MCU_ST_STM32_CM4)
 static void set_led(struct prop *prop, void *arg, void *valp, size_t len)
 {
@@ -229,6 +237,9 @@ static int send_version(struct prop *prop, void *arg)
 	return prop_send(prop, version, strlen(version), arg);
 }
 
+#endif
+
+#if 0
 static u8 send_prop_mask(void)
 {
 	/*
@@ -238,7 +249,9 @@ static u8 send_prop_mask(void)
 	 */
 	return valid_dest_mask | ADS_BIT;
 }
+#endif
 
+#if 0
 static int send_prop_with_meta(struct prop *prop, void *arg)
 {
 	struct datapoint_meta meta[DP_META_MAX_ENTRIES + 1];
@@ -260,7 +273,9 @@ static int send_prop_with_meta(struct prop *prop, void *arg)
 	}
 	return prop_send_meta(prop, meta, arg);
 }
+#endif
 
+#if 0
 static int send_file_prop_with_meta(struct prop *prop, void *arg)
 {
 	struct datapoint_meta meta[DP_META_MAX_ENTRIES + 1];
@@ -282,15 +297,19 @@ static int send_file_prop_with_meta(struct prop *prop, void *arg)
 	}
 	return prop_dp_send_meta(prop, meta, arg);
 }
+#endif
 
+#if 0
 #ifdef DEMO_SCHED_LIB
 static int send_schedule(struct prop *prop, void *arg)
 {
 	return prop_send(prop, sched_out, sched_out_length, arg);
 }
 #endif
+#endif
 
 
+#if 0
 struct prop prop_table[] = {
 	{ "Blue_button", ATLV_BOOL, NULL, send_prop_with_meta,
 	    &blue_button, sizeof(blue_button), AFMT_READ_ONLY},
@@ -349,8 +368,231 @@ struct prop prop_table[] = {
 #endif /* DEMO_FILE_PROP */
 	{ NULL }
 };
+#endif
+
+static s32 Freezer_Internal_Temp;
+static s32 Freezer_Temp_Set_Device;
+static s32 Freezer_Temp_Set_App;
+static s32 Fridge_Temp_Set_Device;
+static s32 Fridge_Temp_Set_App;
+static u8 Door_Status;
+static u8 Compressor_Status;
+static u8 Quick_Freeze_Status_Device;
+static u8 Quick_Freeze_Status_App;
+static u8 Temp_Out_Of_Range_Alert;
+static u8 Door_Open_Alert;
+static u8 Temp_Sensor_Fault;
+static u8 Defrost_Sensor_Fault;
+static u8 Ambient_Temp_Sense_Fault;
+static u8 Freezer_Temp_High_Fault;
+static char Serial_No_buf[64];
+static char Freezer_Model_buf[64];	/* 冰箱型号 */
+static char Freezer_Firmware_Ver_buf[64];	/* 电控板软件版本 */
+static u16 Compressor_On_Time;
+static u8 WiFi_Signal_Strength;
+static u8 Get_WiFi_Signal_Strength;
+static u8 Freezer_Fridge_Mode;
+static u8 Temp_Unit_Device;
+static u8 Temp_Unit_App;
+static int Door_Open_Delay_Time;
+static int SKU_Number;
+static u8 Freezer_Max_Temp;
+static u8 Freezer_Min_Temp;
+static u8 Fridge_Max_Temp;
+static u8 Fridge_Min_Temp;
+static u8 Get_Freezer_Status;
+static u8 Timer_Capable;
+
+static void Freezer_Temp_Set_App_in(struct prop *prop, void *arg, void *valp, size_t len)
+{
+	s32 i;
+	get_ua(valp, sizeof(i), &i);
+
+	if (len != sizeof(s32)) {
+		return;
+	}
+	Freezer_Temp_Set_App = i;
+}
+
+static void Fridge_Temp_Set_App_in(struct prop *prop, void *arg, void *valp, size_t len)
+{
+	s32 i;
+	get_ua(valp, sizeof(i), &i);
+
+	if (len != sizeof(s32)) {
+		return;
+	}
+	  Fridge_Temp_Set_App = i;
+}
+
+static void Quick_Freeze_Status_App_in(struct prop *prop, void *arg, void *valp, size_t len)
+{
+	u8 i = *(u8 *)valp;
+
+	Quick_Freeze_Status_App = i;
+}
+
+static void Get_WiFi_Signal_Strength_in(struct prop *prop, void *arg, void *valp, size_t len)
+{
+	u8 i = *(u8 *)valp;
+
+	Get_WiFi_Signal_Strength = i;
+}
+
+static void Temp_Unit_App_in(struct prop *prop, void *arg, void *valp, size_t len)
+{
+	u8 i = *(u8 *)valp;
+
+	  Temp_Unit_App = i;
+}
+
+static void Door_Open_Delay_Time_in(struct prop *prop, void *arg, void *valp, size_t len) 
+{
+	s32 i;
+	get_ua(valp, sizeof(i), &i);
+	
+	  Door_Open_Delay_Time = i;
+}
+
+static void Get_Freezer_Status_in(struct prop *prop, void *arg, void *valp, size_t len) 
+{
+	u8 i = *(u8 *)valp;
+	
+	Get_Freezer_Status = i;
+}
+
+
+#define MCU_BLACKBOX_VER "2018/09/23 RF-V1.00"
+const char blackbox_version[] = MCU_BLACKBOX_VER;
+static void mcu_blackbox_ver(char *bb_ver, int *len)
+{
+	int i;
+	
+	for (i = 0; i < strlen(blackbox_version); i++) {
+		bb_ver[i] = blackbox_version[i];
+	}
+	
+	memset(&bb_ver[i +1], 0, *len - i - 1);
+	bb_ver[i + 1] = '\0';
+	*len = i +1;
+}
+int send_host_template_version(struct prop *prop, void *arg)
+{
+	char bb_ver[MCU_IMG_TMPL_MAXLEN];
+	int len;
+
+	len = sizeof(bb_ver);
+	mcu_blackbox_ver(bb_ver, &len);
+	return prop_send(prop, bb_ver, strlen(bb_ver), arg);
+}
+
+struct prop prop_table[] = {
+	{ "Freezer_Internal_Temp", ATLV_CENTS, NULL, prop_send_generic, &Freezer_Internal_Temp, sizeof(Freezer_Internal_Temp), AFMT_READ_ONLY},
+#define PROP_Freezer_Internal_Temp_OUT 0
+		
+	{ "Freezer_Temp_Set_Device", ATLV_CENTS, NULL, prop_send_generic, &Freezer_Temp_Set_Device, sizeof(Freezer_Temp_Set_Device), AFMT_READ_ONLY},
+#define PROP_Freezer_Temp_Set_Device_OUT 1  
+		
+	{ "Freezer_Temp_Set_App", ATLV_CENTS, Freezer_Temp_Set_App_in, prop_send_generic, &Freezer_Temp_Set_App, sizeof(Freezer_Temp_Set_App)},	/* to device */
+#define PROP_Freezer_Temp_Set_App_OUT 2
+	
+	{ "Fridge_Temp_Set_Device", ATLV_CENTS, NULL, prop_send_generic, &Fridge_Temp_Set_Device, sizeof(Fridge_Temp_Set_Device), AFMT_READ_ONLY},
+#define PROP_Fridge_Temp_Set_Device_OUT 3 
+
+	{ "Fridge_Temp_Set_App", ATLV_CENTS, Fridge_Temp_Set_App_in, prop_send_generic, &Fridge_Temp_Set_App, sizeof(Fridge_Temp_Set_App)},		/* to device */
+#define PROP_Fridge_Temp_Set_App_OUT 4
+		
+	{ "Door_Status", ATLV_BOOL, NULL, prop_send_generic, &Door_Status, sizeof(Door_Status), AFMT_READ_ONLY},
+#define PROP_Door_Status_OUT 5
+		
+	{ "Compressor_Status", ATLV_BOOL, NULL, prop_send_generic, &Compressor_Status, sizeof(Compressor_Status), AFMT_READ_ONLY},
+#define PROP_Compressor_Status_OUT 6
+		
+	{ "Quick_Freeze_Status_Device", ATLV_BOOL, NULL, prop_send_generic, &Quick_Freeze_Status_Device, sizeof(Quick_Freeze_Status_Device), AFMT_READ_ONLY},
+#define PROP_Quick_Freeze_Status_Device_OUT 7
+		
+	{ "Quick_Freeze_Status_App", ATLV_BOOL, Quick_Freeze_Status_App_in, prop_send_generic, &Quick_Freeze_Status_App, sizeof(Quick_Freeze_Status_App)},		/* to device */
+#define PROP_Quick_Freeze_Status_App_OUT 8
+	
+	{ "Temp_Out_Of_Range_Alert", ATLV_BOOL, NULL, prop_send_generic, &Temp_Out_Of_Range_Alert, sizeof(Temp_Out_Of_Range_Alert), AFMT_READ_ONLY},
+#define PROP_Temp_Out_Of_Range_Alert_OUT 9
+		
+	{ "Door_Open_Alert", ATLV_BOOL, NULL, prop_send_generic, &Door_Open_Alert, sizeof(Door_Open_Alert), AFMT_READ_ONLY},
+#define PROP_Door_Open_Alert_OUT 10
+		
+	{ "Temp_Sensor_Fault", ATLV_BOOL, NULL, prop_send_generic, &Temp_Sensor_Fault, sizeof(Temp_Sensor_Fault), AFMT_READ_ONLY},
+#define PROP_Temp_Sensor_Fault_OUT 11
+		
+	{ "Defrost_Sensor_Fault", ATLV_BOOL, NULL, prop_send_generic, &Defrost_Sensor_Fault, sizeof(Defrost_Sensor_Fault), AFMT_READ_ONLY},
+#define PROP_Defrost_Sensor_Fault_OUT 12
+		
+	{ "Ambient_Temp_Sense_Fault", ATLV_BOOL, NULL, prop_send_generic, &Ambient_Temp_Sense_Fault, sizeof(Ambient_Temp_Sense_Fault), AFMT_READ_ONLY},
+#define PROP_Ambient_Temp_Sense_Fault_OUT 13
+		
+	{ "Freezer_Temp_High_Fault", ATLV_BOOL, NULL, prop_send_generic, &Freezer_Temp_High_Fault, sizeof(Freezer_Temp_High_Fault), AFMT_READ_ONLY},
+#define PROP_Freezer_Temp_High_Fault_OUT 14
+
+	{ "Serial_No", ATLV_UTF8, NULL, prop_send_generic, &Serial_No_buf[0], 0, AFMT_READ_ONLY},
+#define PROP_Serial_No_OUT 15
+		
+	{ "Freezer_Model", ATLV_UTF8, NULL, prop_send_generic, &Freezer_Model_buf[0], 0, AFMT_READ_ONLY},
+#define PROP_Freezer_Model_OUT 16
+		
+	{ "Freezer_Firmware_Ver", ATLV_UTF8, NULL, prop_send_generic, &Freezer_Firmware_Ver_buf[0], 0, AFMT_READ_ONLY},
+#define PROP_Freezer_Firmware_Ver_OUT 17
+
+	{ "Compressor_On_Time", ATLV_INT, NULL, prop_send_generic, &Compressor_On_Time, sizeof(Compressor_On_Time), AFMT_READ_ONLY},
+#define PROP_Compressor_On_Time_OUT 18
+		
+	{ "WiFi_Signal_Strength", ATLV_INT, NULL, prop_send_generic, &WiFi_Signal_Strength, sizeof(WiFi_Signal_Strength), AFMT_READ_ONLY},
+#define PROP_WiFi_Signal_Strength_OUT 19	
+
+	{ "Get_WiFi_Signal_Strength", ATLV_BOOL, Get_WiFi_Signal_Strength_in, prop_send_generic, &Get_WiFi_Signal_Strength, sizeof(Get_WiFi_Signal_Strength)},	/* to device */
+#define PROP_Get_WiFi_Signal_Strength_OUT 20
+
+	{ "Freezer_Fridge_Mode", ATLV_BOOL, NULL, prop_send_generic, &Freezer_Fridge_Mode, sizeof(Freezer_Fridge_Mode), AFMT_READ_ONLY},
+#define PROP_Freezer_Fridge_Mode_OUT 21
+		
+	{ "Temp_Unit_Device", ATLV_BOOL, NULL, prop_send_generic, &Temp_Unit_Device, sizeof(Temp_Unit_Device), AFMT_READ_ONLY},	
+#define PROP_Temp_Unit_Device_OUT 22
+		
+	{ "Temp_Unit_App", ATLV_BOOL, Temp_Unit_App_in, prop_send_generic, &Temp_Unit_App, sizeof(Temp_Unit_App)},	/* to device */
+#define PROP_Temp_Unit_App_OUT 23
+
+	{ "Door_Open_Delay_Time", ATLV_INT, Door_Open_Delay_Time_in, prop_send_generic, &Door_Open_Delay_Time, sizeof(Door_Open_Delay_Time)},	/* to device */
+#define PROP_Door_Open_Delay_Time_OUT 24
+
+	{ "SKU_Number", ATLV_INT, NULL, prop_send_generic, &SKU_Number, sizeof(SKU_Number), AFMT_READ_ONLY},
+#define PROP_SKU_Number_OUT 25
+		
+	{ "Freezer_Max_Temp", ATLV_INT, NULL, prop_send_generic, &Freezer_Max_Temp, sizeof(Freezer_Max_Temp), AFMT_READ_ONLY},
+#define PROP_Freezer_Max_Temp_OUT 26		
+		
+	{ "Freezer_Min_Temp", ATLV_INT, NULL, prop_send_generic, &Freezer_Min_Temp, sizeof(Freezer_Min_Temp), AFMT_READ_ONLY},
+#define PROP_Freezer_Min_Temp_OUT 27
+		
+	{ "Fridge_Max_Temp", ATLV_INT, NULL, prop_send_generic, &Fridge_Max_Temp, sizeof(Fridge_Max_Temp), AFMT_READ_ONLY},
+#define PROP_Fridge_Max_Temp_OUT 28
+		
+	{ "Fridge_Min_Temp", ATLV_INT, NULL, prop_send_generic, &Fridge_Min_Temp, sizeof(Fridge_Min_Temp), AFMT_READ_ONLY},
+#define PROP_Fridge_Min_Temp_OUT 29
+
+	{ "Get_Freezer_Status", ATLV_BOOL, Get_Freezer_Status_in, prop_send_generic, &Get_Freezer_Status, sizeof(Get_Freezer_Status)},	/* to device */
+#define PROP_Get_Freezer_Status_OUT 30
+
+	{ "Timer_Capable", ATLV_BOOL, NULL, prop_send_generic, &Timer_Capable, sizeof(Timer_Capable)},
+#define PROP_Timer_Capable_OUT 31
+
+	{ "BlackBox_MCU_FW_Ver", ATLV_UTF8, NULL, send_host_template_version },
+	
+	{ "oem_host_version", ATLV_UTF8, NULL, send_template_version },
+	
+	{ NULL }
+};
+
 u8 prop_count = (sizeof(prop_table) / sizeof(prop_table[0])) - 1;
 
+#if 0
 static void set_input(struct prop *prop, void *arg, void *valp, size_t len)
 {
 #if   defined(MCU_ST_STM32_CM4)
@@ -425,7 +667,10 @@ static void set_cmd(struct prop *prop, void *arg, void *valp, size_t len)
 	prop_table[PROP_LOG].send_mask = send_prop_mask();
 #endif
 }
+#endif
 
+
+#if 0
 #ifdef DEMO_SCHED_LIB
 static void set_schedule_in(struct prop *prop, void *arg, void *valp,
     size_t len)
@@ -446,6 +691,9 @@ static void set_schedule_in(struct prop *prop, void *arg, void *valp,
 	sched_run_all(NULL);
 }
 #endif
+#endif
+
+
 
 #ifdef DEMO_PROP_TEST
 static u16 prop_test_duration = 30;
@@ -489,6 +737,7 @@ static void prop_test_toggle(void)
  * Blue button push observed by interrupt handler.
  * Callers are in stm32.c
  */
+ #if 0
 void demo_set_button_state(u8 button_value)
 {
 	blue_button = button_value;
@@ -499,7 +748,7 @@ void demo_set_button_state(u8 button_value)
 	}
 #endif
 }
-
+#endif
 static void demo_event_cb(u8 ev_type, void *ev_datap, u8 ev_datalen)
 {
 	u8 event;
@@ -659,6 +908,8 @@ int main(int argc, char **argv)
 	__enable_irq();		/* Enable Globe interrupt PRIMASK = 0 */
 #endif
 
+	TIM3Init(1100, 720);	/* huangjituan 定时器初始化 100ms进入一次中断 */
+	Uart1Init(9600);	/* huangjituan 通讯串口初始化 */
 	for (;;) {
 		if (stm32_ready()) {
 			if (factory_reset &&
